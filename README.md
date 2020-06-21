@@ -39,6 +39,7 @@ tables for analysis
 1. 33118 employees meet retirment criteria.
 
 2. **Retirement Count by department**
+
 |count	|**dept_name**|
 |-------|-------------------|
 |1605	|Finance
@@ -52,6 +53,7 @@ tables for analysis
 |7576	|Production
 
 3. **Retirement count by title**
+
 |count	|**title**|
 |-------|-------------------|
 |10424	|Engineer
@@ -66,6 +68,7 @@ tables for analysis
 4. 691 employees meet mentoring criteria
 
 5. **Mentoring Count by department**
+
 |count	|**dept_name**|
 |-------|-------------------|
 |21	|Finance
