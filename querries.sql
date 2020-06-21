@@ -252,3 +252,105 @@ FROM
 ORDER BY emp_no;
 
 SELECT * FROM title_unique_info
+
+
+SELECT tui.emp_no,d.dept_name
+INTO title_count_by_dept_raw
+FROM title_unique_info as tui
+LEFT JOIN dept_emp as de
+ON tui.emp_no = de.emp_no
+LEFT JOIN departments as d
+ON de.dept_no = d.dept_no;
+
+SELECT * FROM title_count_by_dept_raw
+
+SELECT * 
+INTO title_count_by_dept
+FROM 
+(SELECT *,ROW_NUMBER() OVER
+ (PARTITION BY (emp_no)
+ ORDER BY  dept_name DESC) rn
+ FROM title_count_by_dept_raw
+ ) tmp WHERE rn = 1
+ORDER BY emp_no;
+
+SELECT * FROM title_count_by_dept
+
+SELECT COUNT(emp_no),dept_name
+INTO title_count_by_dept1
+FROM title_count_by_dept
+GROUP BY dept_name
+
+SELECT * FROM title_count_by_dept1
+
+
+-- Create new table for mentoring employees
+SELECT emp_no, first_name, last_name
+INTO mentoring_info
+FROM employees
+WHERE (birth_date BETWEEN '1965-01-01' AND '1965-12-31')
+AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
+-- Check the table
+SELECT * FROM mentoring_info;
+
+-- eligible mentoring employees still working(9999-01-01)
+SELECT mi.emp_no,
+	mi.first_name,
+	mi.last_name,
+	de.to_date
+INTO mentoring_emp
+FROM mentoring_info as mi
+LEFT JOIN dept_emp as de
+ON mi.emp_no = de.emp_no
+WHERE de.to_date = ('9999-01-01');
+
+
+SELECT me.emp_no,
+me.first_name,
+me.last_name,
+ti.title,
+de.from_date,
+de.to_date
+INTO mentoring_title_info
+FROM mentoring_emp as me
+INNER JOIN dept_emp AS de
+ON (me.emp_no = de.emp_no)
+INNER JOIN titles AS ti
+ON (me.emp_no = ti.emp_no);
+
+
+SELECT * 
+INTO mentoring_title_unique_info
+FROM 
+(SELECT *,ROW_NUMBER() OVER
+ (PARTITION BY (emp_no)
+ ORDER BY from_date DESC) rn
+ FROM mentoring_title_info
+ ) tmp WHERE rn = 1
+ORDER BY emp_no;
+
+
+SELECT mtui.emp_no,d.dept_name
+INTO mentoring_title_count_by_dept_raw
+FROM mentoring_title_unique_info as mtui
+LEFT JOIN dept_emp as de
+ON mtui.emp_no = de.emp_no
+LEFT JOIN departments as d
+ON de.dept_no = d.dept_no;
+
+
+SELECT * 
+INTO mentoring_title_count_by_dept
+FROM 
+(SELECT *,ROW_NUMBER() OVER
+ (PARTITION BY (emp_no)
+ ORDER BY  dept_name DESC) rn
+ FROM mentoring_title_count_by_dept_raw
+ ) tmp WHERE rn = 1
+ORDER BY emp_no;
+
+
+SELECT COUNT(emp_no),dept_name
+INTO menoring_title_count_by_dept1
+FROM mentoring_title_count_by_dept
+GROUP BY dept_name
