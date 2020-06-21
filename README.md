@@ -1,6 +1,7 @@
 # Pewlett-Hackard-Analysis
 
 ## A.Background
+
 PH company is planning for growth and orderly transistion. The median age of the workforce is high 
 anda large percentage are nearing retiring age.The company wants to identify the retirement eligible 
 workers and maangers so that succession planning can be done for an orderly transition.The current 
@@ -10,6 +11,7 @@ eligibility criteria. In addition identify mentoring group to enable smoother tr
 The software must be able to group employees by department number and by title.
 
 ## B.Approach
+
 1. Create a ERD based on the current data (6 tables) using QuickDBD.
    - Conceptual
    - Logical
@@ -24,51 +26,54 @@ tables for analysis
   - Criteria for mentors : birth date 1965 and hire date 85 to 88.
   - Used emp_no to left join the employee table with dept_emp table to identify exiting employees (to_date= '9999-01-01')
   - Obtained titles by inner joinning with titles table.
-  - ** DUPLICATES ** found as titles changed for some employees
+  - **DUPLICATES** found as titles changed for some employees
   - Removed duplicates using PARTITION by emp_no ORDER BY from_date. This implementation seems not very clean.
   - To get numbers by department, joinned with dept_emp/departments using dept_no
-  - Filtered using partiton to remove ** DUPLICATES ** as some have worked for more than one department
+  - Filtered using partiton to remove **DUPLICATES** as some have worked for more than one department
   - Used GROUP BY on dept_name to get numbers by department for both retirees and mentors.
+
 ## C. Results and Summary
-![]EmployeeDB.png
+
+![](EmployeeDB.png)
+
 1. 33118 employees meet retirment criteria.
 
 2. Retirement Count by department
-count	dept_name
-1605	Finance
-5860	Sales
-2234	Quality Management
-1617	Customer Service
-8175	Development
-1863	Human Resources
-2413	Research
-1775	Marketing
-7576	Production
+|count	|**dept_name**|
+|1605	|Finance
+|5860	|Sales
+|2234	|Quality Management
+|1617	|Customer Service
+|8175	|Development
+|1863	|Human Resources
+|2413	|Research
+|1775	|Marketing
+|7576	|Production
 
 3. Retirement count by title
-count	title
-10424	Engineer
-4879	Senior Engineer
-4	Manager
-1310	Assistant Engineer
-3726	Staff
-11167	Senior Staff
-1608	Technique Leader
+|count	|**title**|
+|10424	|Engineer
+|4879	|Senior Engineer
+|4	|Manager
+|1310	|Assistant Engineer
+|3726	|Staff
+|11167	|Senior Staff
+|1608	|Technique Leader
 
 
 4. 691 employees meet mentoring criteria
 
 5. Mentoring Count by department
-count	dept_name
-21	Finance
-127	Sales
-38	Quality Management
-43	Customer Service
-177	Development
-42	Human Resources
-52	Research
-46	Marketing
-145	Production
+|count	|**dept_name**|
+|21	|Finance
+|127	|Sales
+|38	|Quality Management
+|43	|Customer Service
+|177	|Development
+|42	|Human Resources
+|52	|Research
+|46	|Marketing
+|145	|Production
 
 ## Next Steps and Recommedation
 1. Should look at % for each department and plan accordingly for both retirees and mentors.
