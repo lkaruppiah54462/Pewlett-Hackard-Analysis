@@ -354,3 +354,13 @@ SELECT COUNT(emp_no),dept_name
 INTO menoring_title_count_by_dept1
 FROM mentoring_title_count_by_dept
 GROUP BY dept_name
+
+SELECT * FROM title_unique_info
+
+
+SELECT COUNT(emp_no),title
+INTO count_by_title
+FROM title_unique_info
+GROUP BY title
+
+SELECT * FROM count_by_title
